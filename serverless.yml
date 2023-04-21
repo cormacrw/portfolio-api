@@ -1,0 +1,32 @@
+service: cormac-portfolio-api
+frameworkVersion: '3'
+
+custom:
+  footballerTable: 'football-data'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - arn:aws:dynamodb:us-east-1:979741802343:table/football-data
+  environment:
+    DYNAMO_TABLE_NAME: ${self:custom.footballerTable}
+
+functions:
+  football-api:
+    handler: build/functions/football-api/index.handler
+    events:
+      - httpApi:
+          path: /football
+          method: '*'
