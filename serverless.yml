@@ -28,5 +28,14 @@ functions:
     handler: build/functions/football-api/index.handler
     events:
       - httpApi:
-          path: /football
+          path: /football/{any+}
           method: '*'
+          
+  test-api:
+    handler: build/functions/test-api/index.handler
+    events:
+      - httpApi:
+          path: /test/{any+}
+          method: '*'
+
+  
